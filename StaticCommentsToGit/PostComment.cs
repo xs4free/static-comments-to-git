@@ -1,11 +1,12 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Octokit;
+using StaticCommentsToGit.Extensions;
+using StaticCommentsToGit.Factories;
+using StaticCommentsToGit.Services;
 
 namespace StaticCommentsToGit
 {
@@ -18,14 +19,11 @@ namespace StaticCommentsToGit
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            AddCorsHeaders(req);
+            req.AddCorsHeaders();
+            var formContents = await FormContentsFactory.Create(req);
 
-            var collection = await req.ReadFormAsync();
-
-            ReCaptcha reCaptcha = new ReCaptcha("<YOUR_RECAPTCHA_SITESECRET>");
-            string token = collection["options[reCaptcha][token]"];
-
-            bool valid = await reCaptcha.Validate(token, "localhost"); //"http://www.progz.nl"
+            ReCaptcha reCaptcha = new ReCaptcha("6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR");
+            bool valid = await reCaptcha.Validate(formContents.Options.Recaptcha.Token, "localhost", "postcomment"); //"http://www.progz.nl"
 
             if (valid)
             {
@@ -35,39 +33,17 @@ namespace StaticCommentsToGit
                 //    .AddEnvironmentVariables()
                 //    .Build();
 
-                string name = req.Query["name"];
-                name = name ?? collection["fields[name]"];
+                var comment = CommentFactory.Create(formContents.Fields);
 
-                var github = new GitHubClient(new ProductHeaderValue("StaticCommentsToGit"));
-                github.Credentials =
-                    new Credentials("<YOUR_GITHUB_ACCESS_TOKEN>"); //https://github.com/settings/tokens
+                var gitHub = new GitHubService(
+                    "xs4free", "static-comments-to-git-publish-test", "master",
+                    "668a654979d129ce3d6115bad80c511139ddb243");
+                gitHub.AddComment(comment);
 
-                // github variables
-                var owner = "xs4free";
-                var repo = "static-comments-to-git-publish-test";
-                var path = $"{name}.{DateTime.Now.Ticks}.txt";
-                var branch = "master";
-                var createFileRequest = new CreateFileRequest("First commit message", "File contents", branch);
-
-                await github.Repository.Content.CreateFile(owner, repo, path, createFileRequest);
-
-                return new OkObjectResult($"Hello, {name}. reCaptcha valid");
+                return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
             }
 
             return new BadRequestObjectResult("reCaptcha invalid");
-        }
-
-        private static void AddCorsHeaders(HttpRequest req)
-        {
-            if (req.Headers.ContainsKey("Origin"))
-            {
-                var response = req.HttpContext.Response;
-                var origin = req.Headers["Origin"];
-
-                response.Headers.Add("Access-Control-Allow-Credentials", "true");
-                response.Headers.Add("Access-Control-Allow-Origin", origin);
-                response.Headers.Add("Access-Control-Allow-Methods", "GET, OPTIONS");
-            }
         }
     }
 }

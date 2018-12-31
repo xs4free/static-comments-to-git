@@ -15,7 +15,7 @@ namespace StaticCommentsToGit
             _siteSecret = siteSecret;
         }
 
-        public async Task<bool> Validate(string token, string expectedHostname)
+        public async Task<bool> Validate(string token, string expectedHostname, string expectedAction)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -27,7 +27,9 @@ namespace StaticCommentsToGit
             var content = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             var recaptchaResponse = JsonConvert.DeserializeObject<RecaptchaResponse>(content);
 
-            return recaptchaResponse.success && string.Compare(recaptchaResponse.hostname, expectedHostname, StringComparison.InvariantCultureIgnoreCase) == 0;
+            return recaptchaResponse.success 
+                   && string.Compare(recaptchaResponse.hostname, expectedHostname, StringComparison.InvariantCultureIgnoreCase) == 0
+                   && string.Compare(recaptchaResponse.action, expectedAction, StringComparison.InvariantCultureIgnoreCase) == 0;
         }
     }
 }
