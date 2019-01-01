@@ -27,6 +27,9 @@ namespace StaticCommentsToGit.Mappers
             yaml.AppendFormat("date: {0:O}", comment.Date);
             yaml.AppendLine();
 
+            yaml.Append("slug: ");
+            yaml.AppendLine(comment.Slug);
+
             return yaml.ToString();
         }
     }

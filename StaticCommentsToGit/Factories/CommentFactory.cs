@@ -7,16 +7,17 @@ namespace StaticCommentsToGit.Factories
 {
     static class CommentFactory
     {
-        public static Comment Create(FormFields fields)
+        public static Comment Create(FormContents form)
         {
-            Guid.TryParse(fields.ReplyTo, out Guid replyTo);
+            Guid.TryParse(form.Fields.ReplyTo, out Guid replyTo);
 
             var comment = new Comment
             {
-                Name = fields.Name,
-                Email = HashEmailForGravatar(fields.Email),
-                Body = fields.Body,
-                ReplyTo = replyTo
+                Name = form.Fields.Name,
+                Email = HashEmailForGravatar(form.Fields.Email),
+                Body = form.Fields.Body,
+                ReplyTo = replyTo,
+                Slug = form.Options.Slug
             };
 
             return comment;

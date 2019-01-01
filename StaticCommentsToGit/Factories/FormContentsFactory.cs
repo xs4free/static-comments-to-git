@@ -24,7 +24,8 @@ namespace StaticCommentsToGit.Factories
                     Recaptcha = new FormOptionsRecaptcha
                     {
                         Token = collection["options[reCaptcha][token]"]
-                    }
+                    },
+                    Slug = collection["options[slug]"]
                 }
             };
         }

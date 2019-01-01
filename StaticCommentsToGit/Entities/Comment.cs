@@ -10,5 +10,6 @@ namespace StaticCommentsToGit.Entities
         public string Email { get; set; }
         public string Body { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+        public string Slug { get; set; }
     }
 }

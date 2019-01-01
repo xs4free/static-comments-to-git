@@ -27,7 +27,7 @@ namespace StaticCommentsToGit
 
             if (valid)
             {
-                var comment = CommentFactory.Create(formContents.Fields);
+                var comment = CommentFactory.Create(formContents);
 
                 var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
                     settings.GitHubToken);
