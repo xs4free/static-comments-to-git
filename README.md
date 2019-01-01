@@ -23,7 +23,6 @@ An example contents for the `local.settings.json` file could be:
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "ReCaptchaSecretKey": "6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR",
     "ReCaptchaHostname": "localhost",
