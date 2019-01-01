@@ -1,3 +1,5 @@
+[![Build status](https://dev.azure.com/xs4free/Progz.nl%20home-automation%20blog/_apis/build/status/Static-comments-to-Git)](https://dev.azure.com/xs4free/Progz.nl%20home-automation%20blog/_build/latest?definitionId=4)
+
 # Description
 Static-comments-to-git enables you to publish markdown comments (for a blog) to a GIT repository using Azure Functions 2.0.
 
@@ -45,10 +47,10 @@ An example contents for the `local.settings.json` file could be:
 - [Octokit - GitHub API Client Library for .NET](https://github.com/octokit/octokit.net)
 
 #TODO
-- [ ] Create Azure DevOps CI/CD (and add badge to readme.md)
 - [ ] Define a better response
 - [ ] Create PullRequest when reCaptcha-score below certain threshold
 - [ ] Implement Akismet SPAM check
 - [ ] Split code into seperate library and add unittesting
 - [ ] Implement [unit-testing for Azure Function](https://docs.microsoft.com/nl-nl/azure/azure-functions/functions-test-a-function)
 - [x] ~~Move literals to configuration file~~
+- [x] ~~Create Azure DevOps CI/CD (and add badge to readme.md)~~
