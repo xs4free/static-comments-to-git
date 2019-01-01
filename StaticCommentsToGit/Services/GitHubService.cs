@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Octokit;
 using StaticCommentsToGit.Entities;
 using StaticCommentsToGit.Mappers;
@@ -22,12 +23,12 @@ namespace StaticCommentsToGit.Services
             _token = token;
         }
 
-        public async void AddComment(Comment comment)
+        public async Task AddComment(Comment comment)
         {
             string yaml = CommentSerializer.SerializeToYaml(comment);
 
             var github = new GitHubClient(new ProductHeaderValue("StaticCommentsToGit"));
-            github.Credentials = new Credentials(_token); //https://github.com/settings/tokens
+            github.Credentials = new Credentials(_token);
 
             // github variables
             var message = $"Add comment by {comment.Name}";

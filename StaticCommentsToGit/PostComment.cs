@@ -32,7 +32,7 @@ namespace StaticCommentsToGit
                 var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
                     settings.GitHubCommentPath, settings.GitHubToken);
 
-                gitHub.AddComment(comment);
+                await gitHub.AddComment(comment);
 
                 return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
             }
