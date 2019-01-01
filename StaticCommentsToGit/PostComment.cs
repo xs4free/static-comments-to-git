@@ -21,23 +21,19 @@ namespace StaticCommentsToGit
 
             req.AddCorsHeaders();
             var formContents = await FormContentsFactory.Create(req);
+            var settings = SettingsFactory.Create();
 
-            ReCaptcha reCaptcha = new ReCaptcha("6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR");
-            bool valid = await reCaptcha.Validate(formContents.Options.Recaptcha.Token, "localhost", "postcomment"); //"http://www.progz.nl"
+            var reCaptcha = new ReCaptchaService(settings.ReCaptchaSecretKey);
+            bool valid = await reCaptcha.Validate(formContents.Options.Recaptcha.Token, settings.ReCaptchaHostname,
+                settings.ReCaptchaAction);
 
             if (valid)
             {
-                //var config = new ConfigurationBuilder()
-                //    .SetBasePath(context.FunctionAppDirectory)
-                //    .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                //    .AddEnvironmentVariables()
-                //    .Build();
-
                 var comment = CommentFactory.Create(formContents.Fields);
 
-                var gitHub = new GitHubService(
-                    "xs4free", "static-comments-to-git-publish-test", "master",
-                    "668a654979d129ce3d6115bad80c511139ddb243");
+                var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
+                    settings.GitHubToken);
+
                 gitHub.AddComment(comment);
 
                 return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
@@ -45,5 +41,6 @@ namespace StaticCommentsToGit
 
             return new BadRequestObjectResult("reCaptcha invalid");
         }
+
     }
 }

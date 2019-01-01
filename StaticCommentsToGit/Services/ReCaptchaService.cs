@@ -3,16 +3,16 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace StaticCommentsToGit
+namespace StaticCommentsToGit.Services
 {
-    public class ReCaptcha
+    public class ReCaptchaService
     {
-        private readonly string _siteSecret;
+        private readonly string _secretKey;
         private static readonly HttpClient Client = new HttpClient();
 
-        public ReCaptcha(string siteSecret)
+        public ReCaptchaService(string secretKey)
         {
-            _siteSecret = siteSecret;
+            _secretKey = secretKey;
         }
 
         public async Task<bool> Validate(string token, string expectedHostname, string expectedAction)
@@ -22,7 +22,7 @@ namespace StaticCommentsToGit
                 return false;
             }
 
-            string url = $"https://www.google.com/recaptcha/api/siteverify?secret={_siteSecret}&response={token}";
+            string url = $"https://www.google.com/recaptcha/api/siteverify?secret={_secretKey}&response={token}";
             var result = await Client.PostAsync(url, null).ConfigureAwait(false);
             var content = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             var recaptchaResponse = JsonConvert.DeserializeObject<RecaptchaResponse>(content);
