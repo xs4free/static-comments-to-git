@@ -14,6 +14,7 @@ This Azure function requires the following settings to run (for local developmen
 |`GitHubOwner`        | `xs4free`								   | Name of the GitHub user that will commit comments to the repository. |
 |`GitHubRepository`   | `static-comments-to-git-publish-test`      | Name of the GitHub repository where comments will be committed. |
 |`GitHubBranch`       | `master`                                   | Name of the Git branch where comments will be committed. |
+|`GitHubCommentPath`  | `data\comments`                            | Base-path in the GitHub repository where comments are stored. |
 |`GitHubToken`        | `668a654979d129ce3d6115bad80c511139ddb243` | GitHub Personal Access Token used to authenticate. Create on [GitHub Developer Settings page](https://github.com/settings/tokens) with `public_repo` scope. |
 
 ps. Example values above won't work, since both ReCaptcha secret and GitHubToken are not valid (any more).
@@ -32,6 +33,7 @@ An example contents for the `local.settings.json` file could be:
     "GitHubOwner": "xs4free",
     "GitHubRepository": "static-comments-to-git-publish-test",
     "GitHubBranch": "master",
+    "GitHubCommentPath": "data\\comments",
     "GitHubToken": "668a654979d129ce3d6115bad80c511139ddb243"
   },
   "Host": {

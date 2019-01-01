@@ -8,6 +8,7 @@
         GitHubOwner,
         GitHubRepository,
         GitHubBranch,
+        GitHubCommentPath,
         GitHubToken
     }
 }

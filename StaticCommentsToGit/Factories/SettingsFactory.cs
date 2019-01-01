@@ -15,6 +15,7 @@ namespace StaticCommentsToGit.Factories
                 GitHubOwner = GetSetting(Setting.GitHubOwner),
                 GitHubRepository = GetSetting(Setting.GitHubRepository),
                 GitHubBranch = GetSetting(Setting.GitHubBranch),
+                GitHubCommentPath = GetSetting(Setting.GitHubCommentPath),
                 GitHubToken = GetSetting(Setting.GitHubToken)
             };
         }

@@ -8,6 +8,7 @@
         public string GitHubOwner { get; set; }
         public string GitHubRepository { get; set; }
         public string GitHubBranch { get; set; }
+        public string GitHubCommentPath { get; set; }
         public string GitHubToken { get; set; }
     }
 }

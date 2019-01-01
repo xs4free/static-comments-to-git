@@ -30,7 +30,7 @@ namespace StaticCommentsToGit
                 var comment = CommentFactory.Create(formContents);
 
                 var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
-                    settings.GitHubToken);
+                    settings.GitHubCommentPath, settings.GitHubToken);
 
                 gitHub.AddComment(comment);
 
