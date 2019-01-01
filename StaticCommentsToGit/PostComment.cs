@@ -4,7 +4,6 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using StaticCommentsToGit.Extensions;
 using StaticCommentsToGit.Factories;
 using StaticCommentsToGit.Services;
 
@@ -19,7 +18,6 @@ namespace StaticCommentsToGit
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            req.AddCorsHeaders();
             var formContents = await FormContentsFactory.Create(req);
             var settings = SettingsFactory.Create();
 
