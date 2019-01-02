@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using StaticCommentsToGit.Entities;
 
 namespace StaticCommentsToGit.Mappers
@@ -12,8 +13,15 @@ namespace StaticCommentsToGit.Mappers
             yaml.AppendFormat("id: {0:D}", comment.Id);
             yaml.AppendLine();
 
-            yaml.AppendFormat("replyTo: {0:D}", comment.ReplyTo);
-            yaml.AppendLine();
+            if (comment.ReplyTo == Guid.Empty)
+            {
+                yaml.AppendLine("replyTo: 0");
+            }
+            else
+            {
+                yaml.AppendFormat("replyTo: {0:D}", comment.ReplyTo);
+                yaml.AppendLine();
+            }
 
             yaml.Append("name: ");
             yaml.AppendLine(comment.Name);
