@@ -53,7 +53,6 @@ An example contents for the `local.settings.json` file could be:
 - [Octokit - GitHub API Client Library for .NET](https://github.com/octokit/octokit.net)
 
 #TODO
-- [ ] Define a better response
 - [ ] Implement user-already-has-allowed-comment check
 - [ ] Split code into seperate library and add unittesting
 - [ ] Implement [unit-testing for Azure Function](https://docs.microsoft.com/nl-nl/azure/azure-functions/functions-test-a-function)
@@ -61,3 +60,4 @@ An example contents for the `local.settings.json` file could be:
 - [x] ~~Create Azure DevOps CI/CD (and add badge to readme.md)~~
 - [x] ~~Create PullRequest when reCaptcha-score below certain threshold~~
 - [x] ~~Implement Akismet SPAM check~~
+- [x] ~~Define a better response~~

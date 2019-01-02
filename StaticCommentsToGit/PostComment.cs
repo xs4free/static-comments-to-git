@@ -35,7 +35,7 @@ namespace StaticCommentsToGit
 
             await gitHub.AddComment(comment, analysisReport);
 
-            return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
+            return new OkResult();
         }
     }
 }
