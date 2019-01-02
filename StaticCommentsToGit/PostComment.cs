@@ -17,22 +17,20 @@ namespace StaticCommentsToGit
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
             var settings = SettingsFactory.Create();
             var formContents = await FormContentsFactory.Create(req);
             var comment = CommentFactory.Create(formContents);
 
-            var reCaptcha = new ReCaptchaService(settings.ReCaptchaSecretKey);
+            var reCaptcha = new ReCaptchaService(settings.ReCaptchaSecretKey, log);
             var reCaptchaResponse = await reCaptcha.Validate(formContents.Options.Recaptcha.Token);
 
-            var analyzer = new ModerationAnalyzer(settings);
-            bool needsModeration = analyzer.NeedsModeration(comment, reCaptchaResponse);
+            var analyzer = new ModerationAnalyzer(settings, log);
+            var analysisReport = analyzer.NeedsModeration(comment, reCaptchaResponse);
 
             var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
                 settings.GitHubCommentPath, settings.GitHubToken);
 
-            await gitHub.AddComment(comment, needsModeration);
+            await gitHub.AddComment(comment, analysisReport);
 
             return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
         }

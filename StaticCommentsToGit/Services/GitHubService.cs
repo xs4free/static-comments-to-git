@@ -23,7 +23,7 @@ namespace StaticCommentsToGit.Services
             _token = token;
         }
 
-        public async Task AddComment(Comment comment, bool createPullRequest = false)
+        public async Task AddComment(Comment comment, ModerationAnalysisReport report)
         {
             string yaml = CommentSerializer.SerializeToYaml(comment);
 
@@ -34,7 +34,7 @@ namespace StaticCommentsToGit.Services
             var path = Path.Combine(_commentDataPath, comment.Slug, $"comment-{comment.Date.Ticks}.yml");
             var branch = _branch;
 
-            if (createPullRequest)
+            if (report.NeedsModeration)
             {
                 branch = $"sc2g-{comment.Slug}-{comment.Date.Ticks}";
                 await CreateNewBranch(github, branch);
@@ -43,9 +43,9 @@ namespace StaticCommentsToGit.Services
             var createFileRequest = new CreateFileRequest(message, yaml, branch);
             await github.Repository.Content.CreateFile(_owner, _repo, path, createFileRequest);
 
-            if (createPullRequest)
+            if (report.NeedsModeration)
             {
-                var newPullRequest = new NewPullRequest(message, branch, _branch);
+                var newPullRequest = new NewPullRequest(report.ReasonForModeration, branch, _branch);
                 await github.Repository.PullRequest.Create(_owner, _repo, newPullRequest);
             }
         }
