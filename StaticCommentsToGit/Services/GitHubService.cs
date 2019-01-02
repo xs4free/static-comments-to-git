@@ -23,20 +23,41 @@ namespace StaticCommentsToGit.Services
             _token = token;
         }
 
-        public async Task AddComment(Comment comment)
+        public async Task AddComment(Comment comment, bool createPullRequest = false)
         {
             string yaml = CommentSerializer.SerializeToYaml(comment);
 
             var github = new GitHubClient(new ProductHeaderValue("StaticCommentsToGit"));
             github.Credentials = new Credentials(_token);
 
-            // github variables
             var message = $"Add comment by {comment.Name}";
-            var createFileRequest = new CreateFileRequest(message, yaml, _branch);
-
             var path = Path.Combine(_commentDataPath, comment.Slug, $"comment-{comment.Date.Ticks}.yml");
+            var branch = _branch;
 
+            if (createPullRequest)
+            {
+                branch = $"sc2g-{comment.Slug}-{comment.Date.Ticks}";
+                await CreateNewBranch(github, branch);
+            }
+
+            var createFileRequest = new CreateFileRequest(message, yaml, branch);
             await github.Repository.Content.CreateFile(_owner, _repo, path, createFileRequest);
+
+            if (createPullRequest)
+            {
+                var newPullRequest = new NewPullRequest(message, branch, _branch);
+                await github.Repository.PullRequest.Create(_owner, _repo, newPullRequest);
+            }
+        }
+
+        private async Task CreateNewBranch(GitHubClient github, string newBranchName)
+        {
+            var headRef = $"heads/{_branch}";
+            var targetBranchReference = await github.Git.Reference.Get(_owner, _repo, headRef);
+
+            var newBranchRef = $"refs/heads/{newBranchName}";
+            var newReference = new NewReference(newBranchRef, targetBranchReference.Object.Sha);
+            await github.Git.Reference.Create(_owner, _repo, newReference);
         }
     }
 }
