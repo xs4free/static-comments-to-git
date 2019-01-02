@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -15,11 +14,11 @@ namespace StaticCommentsToGit.Services
             _secretKey = secretKey;
         }
 
-        public async Task<bool> Validate(string token, string expectedHostname, string expectedAction)
+        public async Task<RecaptchaResponse> Validate(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
-                return false;
+                return null;
             }
 
             string url = $"https://www.google.com/recaptcha/api/siteverify?secret={_secretKey}&response={token}";
@@ -27,9 +26,7 @@ namespace StaticCommentsToGit.Services
             var content = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             var recaptchaResponse = JsonConvert.DeserializeObject<RecaptchaResponse>(content);
 
-            return recaptchaResponse.success 
-                   && string.Compare(recaptchaResponse.hostname, expectedHostname, StringComparison.InvariantCultureIgnoreCase) == 0
-                   && string.Compare(recaptchaResponse.action, expectedAction, StringComparison.InvariantCultureIgnoreCase) == 0;
+            return recaptchaResponse;
         }
     }
 }

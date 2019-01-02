@@ -4,6 +4,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using StaticCommentsToGit.Analyzers;
 using StaticCommentsToGit.Factories;
 using StaticCommentsToGit.Services;
 
@@ -18,27 +19,22 @@ namespace StaticCommentsToGit
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var formContents = await FormContentsFactory.Create(req);
             var settings = SettingsFactory.Create();
+            var formContents = await FormContentsFactory.Create(req);
+            var comment = CommentFactory.Create(formContents);
 
             var reCaptcha = new ReCaptchaService(settings.ReCaptchaSecretKey);
-            bool valid = await reCaptcha.Validate(formContents.Options.Recaptcha.Token, settings.ReCaptchaHostname,
-                settings.ReCaptchaAction);
+            var reCaptchaResponse = await reCaptcha.Validate(formContents.Options.Recaptcha.Token);
 
-            if (valid)
-            {
-                var comment = CommentFactory.Create(formContents);
+            var analyzer = new ModerationAnalyzer(settings);
+            bool needsModeration = analyzer.NeedsModeration(comment, reCaptchaResponse);
 
-                var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
-                    settings.GitHubCommentPath, settings.GitHubToken);
+            var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
+                settings.GitHubCommentPath, settings.GitHubToken);
 
-                await gitHub.AddComment(comment);
+            await gitHub.AddComment(comment, needsModeration);
 
-                return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
-            }
-
-            return new BadRequestObjectResult("reCaptcha invalid");
+            return new OkObjectResult($"Hello, {comment.Name}. reCaptcha valid");
         }
-
     }
 }

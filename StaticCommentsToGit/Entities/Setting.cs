@@ -5,6 +5,7 @@
         ReCaptchaSecretKey,
         ReCaptchaHostname,
         ReCaptchaAction,
+        ReCaptchaMinimumScore,
         GitHubOwner,
         GitHubRepository,
         GitHubBranch,

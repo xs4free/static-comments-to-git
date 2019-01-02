@@ -5,6 +5,7 @@
         public string ReCaptchaSecretKey { get; set; }
         public string ReCaptchaHostname { get; set; }
         public string ReCaptchaAction { get; set; }
+        public decimal ReCaptchaMinimumScore { get; set; }
         public string GitHubOwner { get; set; }
         public string GitHubRepository { get; set; }
         public string GitHubBranch { get; set; }
