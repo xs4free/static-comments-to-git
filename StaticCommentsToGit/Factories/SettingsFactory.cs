@@ -13,6 +13,8 @@ namespace StaticCommentsToGit.Factories
                 ReCaptchaHostname = GetSetting(Setting.ReCaptchaHostname),
                 ReCaptchaAction = GetSetting(Setting.ReCaptchaAction),
                 ReCaptchaMinimumScore = GetSettingDecimal(Setting.ReCaptchaMinimumScore),
+                AkismetApiKey = GetSetting(Setting.AkismetApiKey),
+                AkismetBlogUrl = GetSetting(Setting.AkismetBlogUrl),
                 GitHubOwner = GetSetting(Setting.GitHubOwner),
                 GitHubRepository = GetSetting(Setting.GitHubRepository),
                 GitHubBranch = GetSetting(Setting.GitHubBranch),

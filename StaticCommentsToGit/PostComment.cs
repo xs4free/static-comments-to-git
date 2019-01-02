@@ -24,8 +24,11 @@ namespace StaticCommentsToGit
             var reCaptcha = new ReCaptchaService(settings.ReCaptchaSecretKey, log);
             var reCaptchaResponse = await reCaptcha.Validate(formContents.Options.Recaptcha.Token);
 
+            var akismetService = new AkismetService(settings, log);
+            var akismetResponse = await akismetService.IsSpam(req, comment, formContents);
+
             var analyzer = new ModerationAnalyzer(settings, log);
-            var analysisReport = analyzer.NeedsModeration(comment, reCaptchaResponse);
+            var analysisReport = analyzer.NeedsModeration(comment, reCaptchaResponse, akismetResponse);
 
             var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
                 settings.GitHubCommentPath, settings.GitHubToken);

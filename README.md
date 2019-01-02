@@ -11,6 +11,8 @@ This Azure function requires the following settings to run (for local developmen
 |`ReCaptchaSecretKey` | `6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR` | reCAPTCHA v3 secret key. Create keys using [Google ReCaptcha Admin](https://www.google.com/recaptcha/admin) |
 |`ReCaptchaHostname`  | `localhost` or `progz.nl`                  | Expected hostname where Captcha was generated. |
 |`ReCaptchaAction`    | `postcomment`                              | Expected action that was included when Captcha was generated. |
+|`AkismetApiKey`      | `aaa111aaa111`                             | Akismet API KEY. Can be found on [Akismet Account overview](https://akismet.com/account/) |
+|`AkismetBlogUrl`     | `https://www.progz.nl`                     | The front page or home URL of the blog where the comment will be hosted (must be a full URI).
 |`GitHubOwner`        | `xs4free`								   | Name of the GitHub user that will commit comments to the repository. |
 |`GitHubRepository`   | `static-comments-to-git-publish-test`      | Name of the GitHub repository where comments will be committed. |
 |`GitHubBranch`       | `master`                                   | Name of the Git branch where comments will be committed. |
@@ -30,6 +32,8 @@ An example contents for the `local.settings.json` file could be:
     "ReCaptchaSecretKey": "6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR",
     "ReCaptchaHostname": "localhost",
     "ReCaptchaAction": "postcomment",
+    "AkismetApiKey": "aaa111aaa111",
+    "AkismetBlogUrl": "https://www.progz.nl" ,
     "GitHubOwner": "xs4free",
     "GitHubRepository": "static-comments-to-git-publish-test",
     "GitHubBranch": "master",
@@ -45,14 +49,15 @@ An example contents for the `local.settings.json` file could be:
 
 ## Special thanks to the following websites/blogposts:
 - [Azure Functions Access-Control-Allow-Credentials with CORS](https://blogs.msdn.microsoft.com/benjaminperkins/2017/04/12/azure-functions-access-control-allow-credentials-with-cors/) by Benjamin Perkins
-- [Akismet.NET](https://github.com/RRosier/Akismet.NET/tree/master/Rosier.Akismet.Net) by Ronald Rossier
+- [Akismet](https://www.nuget.org/packages/Akismet/) by Jason Nelson
 - [Octokit - GitHub API Client Library for .NET](https://github.com/octokit/octokit.net)
 
 #TODO
-- [ ] Create PullRequest when reCaptcha-score below certain threshold
-- [ ] Implement Akismet SPAM check
 - [ ] Define a better response
+- [ ] Implement user-already-has-allowed-comment check
 - [ ] Split code into seperate library and add unittesting
 - [ ] Implement [unit-testing for Azure Function](https://docs.microsoft.com/nl-nl/azure/azure-functions/functions-test-a-function)
 - [x] ~~Move literals to configuration file~~
 - [x] ~~Create Azure DevOps CI/CD (and add badge to readme.md)~~
+- [x] ~~Create PullRequest when reCaptcha-score below certain threshold~~
+- [x] ~~Implement Akismet SPAM check~~

@@ -28,7 +28,7 @@ namespace StaticCommentsToGit.Services
             var result = await Client.PostAsync(url, null).ConfigureAwait(false);
             var content = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            _log.LogInformation("Received reCAPTCHA response: '{0}'", content);
+            _log.LogDebug("Received reCAPTCHA response: '{0}'", content);
 
             var recaptchaResponse = JsonConvert.DeserializeObject<RecaptchaResponse>(content);
 

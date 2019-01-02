@@ -6,6 +6,8 @@
         ReCaptchaHostname,
         ReCaptchaAction,
         ReCaptchaMinimumScore,
+        AkismetApiKey,
+        AkismetBlogUrl,
         GitHubOwner,
         GitHubRepository,
         GitHubBranch,

@@ -16,13 +16,12 @@ namespace StaticCommentsToGit.Analyzers
             _log = log;
         }
 
-        public ModerationAnalysisReport NeedsModeration(Comment comment, RecaptchaResponse recaptchaResponse)
+        public ModerationAnalysisReport NeedsModeration(Comment comment, RecaptchaResponse recaptchaResponse, AkismetResponse akismetResponse)
         {
             var reasonForModeration = new StringBuilder();
 
             CheckReCaptcha(recaptchaResponse, reasonForModeration);
-
-            //TODO: add Akismet check
+            CheckAkismet(akismetResponse, reasonForModeration);
 
             //TODO: add new user check
 
@@ -40,6 +39,19 @@ namespace StaticCommentsToGit.Analyzers
                 NeedsModeration = reasonForModeration.Length > 0,
                 ReasonForModeration = reasonForModeration.ToString()
             };
+        }
+
+        private void CheckAkismet(AkismetResponse akismetResponse, StringBuilder reasonForModeration)
+        {
+            if (akismetResponse.IsSpam)
+            {
+                reasonForModeration.AppendLine("Akismet says it's spam");
+            }
+
+            if (string.Compare(akismetResponse.ProTip, "discard", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                reasonForModeration.AppendLine("Akismet pro-tip is 'discard'");
+            }
         }
 
         private void CheckReCaptcha(RecaptchaResponse recaptchaResponse, StringBuilder reasonForModeration)
