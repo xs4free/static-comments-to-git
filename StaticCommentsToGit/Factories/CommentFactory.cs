@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using StaticCommentsToGit.Entities;
 
@@ -9,14 +8,12 @@ namespace StaticCommentsToGit.Factories
     {
         public static Comment Create(FormContents form)
         {
-            Guid.TryParse(form.Fields.ReplyTo, out Guid replyTo);
-
             var comment = new Comment
             {
                 Name = form.Fields.Name,
                 Email = HashEmailForGravatar(form.Fields.Email),
                 Body = form.Fields.Body,
-                ReplyTo = replyTo,
+                ReplyTo = form.Fields.ReplyTo,
                 Slug = form.Options.Slug
             };
 
