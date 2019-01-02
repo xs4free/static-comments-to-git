@@ -21,6 +21,7 @@ namespace StaticCommentsToGit.Factories
                 },
                 Options = new FormOptions
                 {
+                    Origin = collection["options[origin]"],
                     Recaptcha = new FormOptionsRecaptcha
                     {
                         Token = collection["options[reCaptcha][token]"]
