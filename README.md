@@ -53,7 +53,8 @@ An example contents for the `local.settings.json` file could be:
 - [Octokit - GitHub API Client Library for .NET](https://github.com/octokit/octokit.net)
 
 #TODO
-- [ ] Implement user-already-has-allowed-comment check
+- [ ] Add multi-site support by (1) adding comma-seperated sites-key to config and (2) adding site-name postfix to all site-keys with (3) a fallback to no-postfix for settings across sites
+- [ ] Implement user-already-has-allowed-comment check by getting/creating/modifying a `known-commenters.json` in the GitHub repo
 - [ ] Split code into seperate library and add unittesting
 - [ ] Implement [unit-testing for Azure Function](https://docs.microsoft.com/nl-nl/azure/azure-functions/functions-test-a-function)
 - [x] ~~Move literals to configuration file~~
