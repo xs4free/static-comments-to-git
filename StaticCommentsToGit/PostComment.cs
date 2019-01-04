@@ -17,9 +17,9 @@ namespace StaticCommentsToGit
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
-            var settings = SettingsFactory.Create();
             var formContents = await FormContentsFactory.Create(req);
             var comment = CommentFactory.Create(formContents);
+            var settings = SettingsFactory.Create(formContents.Options.Origin, log);
 
             var reCaptcha = new ReCaptchaService(settings.ReCaptchaSecretKey, log);
             var reCaptchaResponse = await reCaptcha.Validate(formContents.Options.Recaptcha.Token);

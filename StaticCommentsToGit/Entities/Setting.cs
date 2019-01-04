@@ -2,6 +2,8 @@
 {
     enum Setting
     {
+        SiteNames,
+        SiteOrigins,
         ReCaptchaSecretKey,
         ReCaptchaHostname,
         ReCaptchaAction,
