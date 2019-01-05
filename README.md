@@ -2,6 +2,7 @@
 
 # Description
 Static-comments-to-git enables you to publish markdown comments (for a blog) to a GIT repository using Azure Functions 2.0.
+The comments are validated using Google reCAPTCHA, Akismet spamchecker and a list of known users that have commented before on the same blog.
 
 # Settings required to run the function
 This Azure function requires the following settings to run (for local development add them to `local.settings.json`):
@@ -84,7 +85,6 @@ An example contents for the `local.settings.json` file could be:
 - [Octokit - GitHub API Client Library for .NET](https://github.com/octokit/octokit.net)
 
 #TODO
-- [ ] Implement user-already-has-allowed-comment check by getting/creating/modifying a `known-commenters.json` in the GitHub repo
 - [ ] Split code into seperate library and add unittesting
 - [ ] Implement [unit-testing for Azure Function](https://docs.microsoft.com/nl-nl/azure/azure-functions/functions-test-a-function)
 - [x] ~~Move literals to configuration file~~
@@ -93,3 +93,4 @@ An example contents for the `local.settings.json` file could be:
 - [x] ~~Implement Akismet SPAM check~~
 - [x] ~~Define a better response~~
 - [x] ~~Add multi-site support by (1) adding comma-seperated sites-key to config and (2) adding site-name postfix to all site-keys with (3) a fallback to no-postfix for settings across sites~~
+- [x] ~~Implement user-already-has-allowed-comment check by getting/creating/modifying a `known-commenters.csv` in the GitHub repo~~

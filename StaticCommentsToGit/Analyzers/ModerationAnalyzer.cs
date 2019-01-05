@@ -16,14 +16,13 @@ namespace StaticCommentsToGit.Analyzers
             _log = log;
         }
 
-        public ModerationAnalysisReport NeedsModeration(Comment comment, RecaptchaResponse recaptchaResponse, AkismetResponse akismetResponse)
-        {
+        public ModerationAnalysisReport NeedsModeration(Comment comment, RecaptchaResponse recaptchaResponse, AkismetResponse akismetResponse, KnownCommenterResponse knownCommenterResponse)
+        { 
             var reasonForModeration = new StringBuilder();
 
             CheckReCaptcha(recaptchaResponse, reasonForModeration);
             CheckAkismet(akismetResponse, reasonForModeration);
-
-            //TODO: add new user check
+            CheckKnownCommenter(knownCommenterResponse, reasonForModeration);
 
             if (reasonForModeration.Length > 0)
             {
@@ -39,6 +38,15 @@ namespace StaticCommentsToGit.Analyzers
                 NeedsModeration = reasonForModeration.Length > 0,
                 ReasonForModeration = reasonForModeration.ToString()
             };
+        }
+
+        private void CheckKnownCommenter(KnownCommenterResponse knownCommenterResponse, StringBuilder reasonForModeration)
+        {
+            if (!knownCommenterResponse.IsKnownCommenter)
+            {
+                reasonForModeration.AppendLine(
+                    $"User '{knownCommenterResponse.Username} ({knownCommenterResponse.Email})' hasn't commented before.");
+            }
         }
 
         private void CheckAkismet(AkismetResponse akismetResponse, StringBuilder reasonForModeration)

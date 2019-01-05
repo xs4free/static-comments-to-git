@@ -27,13 +27,14 @@ namespace StaticCommentsToGit
             var akismetService = new AkismetService(settings, log);
             var akismetResponse = await akismetService.IsSpam(req, comment, formContents);
 
-            var analyzer = new ModerationAnalyzer(settings, log);
-            var analysisReport = analyzer.NeedsModeration(comment, reCaptchaResponse, akismetResponse);
-
-            var gitHub = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
+            var gitHubService = new GitHubService(settings.GitHubOwner, settings.GitHubRepository, settings.GitHubBranch,
                 settings.GitHubCommentPath, settings.GitHubToken);
+            var knownCommenterResponse = await gitHubService.IsKnownCommenter(comment.Name, comment.Email);
 
-            await gitHub.AddComment(comment, analysisReport);
+            var analyzer = new ModerationAnalyzer(settings, log);
+            var analysisReport = analyzer.NeedsModeration(comment, reCaptchaResponse, akismetResponse, knownCommenterResponse);
+
+            await gitHubService.AddComment(comment, analysisReport, knownCommenterResponse);
 
             return new OkResult();
         }
