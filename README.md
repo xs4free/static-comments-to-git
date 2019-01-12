@@ -7,20 +7,21 @@ The comments are validated using Google reCAPTCHA, Akismet spamchecker and a lis
 # Settings required to run the function
 This Azure function requires the following settings to run (for local development add them to `local.settings.json`):
 
-|Name                 |Example value                               |Remark                                                                                                                              |
-|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-|`ReCaptchaSecretKey` | `6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR` | reCAPTCHA v3 secret key. Create keys using [Google ReCaptcha Admin](https://www.google.com/recaptcha/admin) |
-|`ReCaptchaHostname`  | `localhost` or `progz.nl`                  | Expected hostname where Captcha was generated. |
-|`ReCaptchaAction`    | `postcomment`                              | Expected action that was included when Captcha was generated. |
-|`AkismetApiKey`      | `aaa111aaa111`                             | Akismet API KEY. Can be found on [Akismet Account overview](https://akismet.com/account/) |
-|`AkismetBlogUrl`     | `https://www.progz.nl`                     | The front page or home URL of the blog where the comment will be hosted (must be a full URI).
-|`GitHubOwner`        | `xs4free`								   | Name of the GitHub user that will commit comments to the repository. |
-|`GitHubRepository`   | `static-comments-to-git-publish-test`      | Name of the GitHub repository where comments will be committed. |
-|`GitHubBranch`       | `master`                                   | Name of the Git branch where comments will be committed. |
-|`GitHubCommentPath`  | `data\comments`                            | Base-path in the GitHub repository where comments are stored. |
-|`GitHubToken`        | `668a654979d129ce3d6115bad80c511139ddb243` | GitHub Personal Access Token used to authenticate. Create one at the [GitHub Developer Settings page](https://github.com/settings/tokens) with `public_repo` scope. |
-|`SiteNames`          | `travel,homeautomation`                    | [Optional] Comma-separated list of site-names comments will be processed for. These names are only used inside StaticCommentsToGit. |
-|`SiteOrigins`        | `/blog,/homeautomation`                    | [Optional] Comma-separated list of texts that are part of the origin for a comment. Number of values should equal number of `siteNames` |
+|Name                   | Example value                              | Remark                                                                                                                              |
+|-----------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+|`ReCaptchaSecretKey`   | `6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR` | reCAPTCHA v3 secret key. Create keys using [Google ReCaptcha Admin](https://www.google.com/recaptcha/admin) |
+|`ReCaptchaHostname`    | `localhost` or `progz.nl`                  | Expected hostname where Captcha was generated. |
+|`ReCaptchaAction`      | `postcomment`                              | Expected action that was included when Captcha was generated. |
+|`ReCaptchaMinimumScore`| `0.5`										 | The minimum score reCAPTCHA must return to allow a comment, comments below this score need moderation. |
+|`AkismetApiKey`        | `aaa111aaa111`                             | Akismet API KEY. Can be found on [Akismet Account overview](https://akismet.com/account/) |
+|`AkismetBlogUrl`       | `https://www.progz.nl`                     | The front page or home URL of the blog where the comment will be hosted (must be a full URI).
+|`GitHubOwner`          | `xs4free`								     | Name of the GitHub user that will commit comments to the repository. |
+|`GitHubRepository`     | `static-comments-to-git-publish-test`      | Name of the GitHub repository where comments will be committed. |
+|`GitHubBranch`         | `master`                                   | Name of the Git branch where comments will be committed. |
+|`GitHubCommentPath`    | `data\comments`                            | Base-path in the GitHub repository where comments are stored. |
+|`GitHubToken`          | `668a654979d129ce3d6115bad80c511139ddb243` | GitHub Personal Access Token used to authenticate. Create one at the [GitHub Developer Settings page](https://github.com/settings/tokens) with `public_repo` scope. |
+|`SiteNames`            | `travel,homeautomation`                    | [Optional] Comma-separated list of site-names comments will be processed for. These names are only used inside StaticCommentsToGit. |
+|`SiteOrigins`          | `/blog,/homeautomation`                    | [Optional] Comma-separated list of texts that are part of the origin for a comment. Number of values should equal number of `siteNames` |
 
 ps. Example values above won't work, since the ReCaptchaSecretKey, AkistmetApiKey and GitHubToken are not valid (any more).
 
@@ -35,6 +36,7 @@ An example contents for the `local.settings.json` file could be:
     "ReCaptchaSecretKey": "6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR",
     "ReCaptchaHostname": "localhost",
     "ReCaptchaAction": "postcomment",
+    "ReCaptchaMinimumScore": "0.5",
     "AkismetApiKey": "aaa111aaa111",
     "AkismetBlogUrl": "https://www.progz.nl" ,
     "GitHubOwner": "xs4free",
@@ -62,6 +64,7 @@ An example contents for the `local.settings.json` file could be:
     "ReCaptchaSecretKey": "6Lc3GHwUAAAAAGQyJylDj6GfdeGnlEvD3HDKb8YR",
     "ReCaptchaHostname": "localhost",
     "ReCaptchaAction": "postcomment",
+    "ReCaptchaMinimumScore": "0.5",
     "AkismetApiKey": "aaa111aaa111",
     "AkismetBlogUrl": "https://www.progz.nl" ,
     "GitHubOwner": "xs4free",
