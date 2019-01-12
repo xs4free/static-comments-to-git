@@ -35,7 +35,7 @@ namespace StaticCommentsToGit.Services
         {
             string yaml = CommentSerializer.SerializeToYaml(comment);
 
-            var message = $"Add comment by {comment.Name}";
+            var message = $"Add comment to '{comment.Slug}' by '{comment.Name}'";
             var path = Path.Combine(_commentDataPath, comment.Slug, $"comment-{comment.Date.Ticks}.yml");
             var branch = _branch;
 
@@ -55,14 +55,15 @@ namespace StaticCommentsToGit.Services
 
             if (report.NeedsModeration)
             {
-                var newPullRequest = new NewPullRequest(report.ReasonForModeration, branch, _branch);
+                var newPullRequest = new NewPullRequest(message, branch, _branch);
+                newPullRequest.Body = report.ReasonForModeration;
                 await _github.Repository.PullRequest.Create(_owner, _repo, newPullRequest);
             }
         }
 
         private async Task CreateOrUpdateKnownCommentersFile(KnownCommenterResponse knownCommenterResponse, string branch)
         {
-            var message = $"Add known commenter {knownCommenterResponse.Username}";
+            var message = $"Add known commenter '{knownCommenterResponse.Username}'";
             var content = AddKnownCommenterToCsvContent(knownCommenterResponse);
 
             if (knownCommenterResponse.FileExists)

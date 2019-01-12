@@ -45,7 +45,7 @@ namespace StaticCommentsToGit.Analyzers
             if (!knownCommenterResponse.IsKnownCommenter)
             {
                 reasonForModeration.AppendLine(
-                    $"User '{knownCommenterResponse.Username} ({knownCommenterResponse.Email})' hasn't commented before.");
+                    $"User '{knownCommenterResponse.Username}' hasn't commented before.");
             }
         }
 
