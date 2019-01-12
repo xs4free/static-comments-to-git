@@ -82,7 +82,7 @@ namespace StaticCommentsToGit.Analyzers
                     $"reCAPTCHA hostname != expected hostname ('{recaptchaResponse.hostname}' != '{_settings.ReCaptchaHostname}')");
             }
 
-            if (string.Compare(recaptchaResponse.hostname, _settings.ReCaptchaHostname,
+            if (string.Compare(recaptchaResponse.action, _settings.ReCaptchaAction,
                     StringComparison.InvariantCultureIgnoreCase) != 0)
             {
                 reasonForModeration.AppendLine(
