@@ -28,7 +28,7 @@ namespace StaticCommentsToGit.Services
             _github = new GitHubClient(new ProductHeaderValue("StaticCommentsToGit"));
             _github.Credentials = new Credentials(token);
 
-            _knownCommentersPath = Path.Combine(_commentDataPath, "known-commenters.csv");
+            _knownCommentersPath = Path.Combine(_commentDataPath, "known-commenters.yml");
         }
 
         public async Task AddComment(Comment comment, ModerationAnalysisReport report, KnownCommenterResponse knownCommenterResponse)
@@ -118,7 +118,7 @@ namespace StaticCommentsToGit.Services
 
         private static string CreateKnownCommenterRow(string username, string email)
         {
-            return $"{email},{username.Trim().ToLowerInvariant()}";
+            return $"- {email},{username.Trim().ToLowerInvariant()}";
         }
 
         private async Task CreateNewBranch(string newBranchName)

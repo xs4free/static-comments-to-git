@@ -96,4 +96,4 @@ An example contents for the `local.settings.json` file could be:
 - [x] ~~Implement Akismet SPAM check~~
 - [x] ~~Define a better response~~
 - [x] ~~Add multi-site support by (1) adding comma-seperated sites-key to config and (2) adding site-name postfix to all site-keys with (3) a fallback to no-postfix for settings across sites~~
-- [x] ~~Implement user-already-has-allowed-comment check by getting/creating/modifying a `known-commenters.csv` in the GitHub repo~~
+- [x] ~~Implement user-already-has-allowed-comment check by getting/creating/modifying a `known-commenters.yml` in the GitHub repo~~
