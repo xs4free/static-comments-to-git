@@ -22,14 +22,16 @@ namespace StaticCommentsToGit.Mappers
                 yaml.AppendLine(comment.ReplyTo);
             }
 
-            yaml.Append("name: ");
-            yaml.AppendLine(comment.Name);
+            yaml.Append("name: \"");
+            yaml.Append(comment.Name);
+            yaml.AppendLine("\"");
 
             yaml.Append("email: ");
             yaml.AppendLine(comment.Email);
 
-            yaml.Append("body: ");
-            yaml.AppendLine(comment.Body);
+            yaml.Append("body: \"");
+            yaml.Append(comment.Body);
+            yaml.AppendLine("\"");
 
             yaml.AppendFormat("date: {0:O}", comment.Date);
             yaml.AppendLine();
