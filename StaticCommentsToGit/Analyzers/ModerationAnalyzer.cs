@@ -64,6 +64,11 @@ namespace StaticCommentsToGit.Analyzers
 
         private void CheckReCaptcha(RecaptchaResponse recaptchaResponse, StringBuilder reasonForModeration)
         {
+            if (recaptchaResponse == null)
+            {
+                reasonForModeration.AppendLine("reCAPTCHA no response");
+            }
+
             if (!recaptchaResponse.success)
             {
                 reasonForModeration.AppendLine("reCAPTCHA success is false");
